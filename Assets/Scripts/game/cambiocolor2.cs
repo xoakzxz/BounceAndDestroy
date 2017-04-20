@@ -4,29 +4,9 @@ namespace BounceAndDestroy
 {
     public class cambiocolor2 : MonoBehaviour
     {
-
         [SerializeField]
         private float Velocidad;
 
-
-        // Use this for initialization
-
-        void Awake()
-        {
-
-
-        }
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-            
-        }
         void OnCollisionEnter(Collision col)
         {
             if (col.gameObject.tag == "Bolas")

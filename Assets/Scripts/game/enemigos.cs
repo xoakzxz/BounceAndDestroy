@@ -58,7 +58,7 @@ namespace BounceAndDestroy
         {
             if (nucleo.gameObject.CompareTag("Nucleo"))
             {
-                GameObject.Find("GameMaster").GetComponent<Vida>().Vida_nucleo();
+                GameObject.Find("GameMaster").GetComponent<Life>().Vida_nucleo();
             }
 
         }

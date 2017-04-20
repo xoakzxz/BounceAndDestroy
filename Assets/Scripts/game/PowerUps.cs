@@ -108,7 +108,7 @@ namespace BounceAndDestroy
         public void OnHpup() {
 
             if (controladorHP==false) {
-                vida.GetComponent<Vida>().AumentarVida();
+                vida.GetComponent<Life>().AumentarVida();
                 StartCoroutine(HpUp());
             }
         }

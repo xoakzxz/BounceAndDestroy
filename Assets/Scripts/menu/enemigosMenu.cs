@@ -12,8 +12,6 @@ namespace BounceAndDestroy
         [SerializeField]
         private float VelocidadMax;
 
-
-
         private float smoothingFactor;
 
         private Rigidbody rb;
@@ -56,7 +54,7 @@ namespace BounceAndDestroy
         {
             if (nucleo.gameObject.CompareTag("Nucleo"))
             {
-                GameObject.Find("GameMaster").GetComponent<Vida>().Vida_nucleo();
+                GameObject.Find("GameMaster").GetComponent<Life>().Vida_nucleo();
             }
 
         }

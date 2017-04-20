@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace BounceAndDestroy
 {
-    public class pausa : MonoBehaviour
+    public class Pause : MonoBehaviour
     {
+        #region Properties
 
         private GameObject canvas;
         private Transform PausaTexto;
@@ -21,7 +21,12 @@ namespace BounceAndDestroy
 
         private float vida;
 
-        void Awake() {
+        #endregion
+
+        #region Unity Functions
+
+        void Awake()
+        {
             canvas = GameObject.Find("CanvasPowerUps");
             PausaTexto = canvas.transform.FindChild("PausaText");
             botonContinuar = canvas.transform.FindChild("Continuar");
@@ -29,18 +34,11 @@ namespace BounceAndDestroy
             botonReiniciar = canvas.transform.FindChild("Reintentar");
             ganarTexto = canvas.transform.FindChild("TextoGanar");
         }
-        
-        // Use this for initialization
-        void Start()
-        {
 
-        }
-
-        // Update is called once per frame
         void Update()
         {
             Debug.Log(ControladorWaves.WaveEnd);
-            vida= GameObject.Find("GameMaster").GetComponent<Vida>().GetVida();
+            vida= GameObject.Find("GameMaster").GetComponent<Life>().GetVida();
 
             if (vida <= 0)
             {
@@ -59,7 +57,12 @@ namespace BounceAndDestroy
             }
         }
 
-        public void OnPausa() {
+        #endregion
+
+        #region Buttons Functions
+
+        public void OnPausa()
+        {
             Time.timeScale = 0;
             PausaTexto.gameObject.SetActive(true);
             PausaTexto.GetComponent<Text>().text = "Pausa";
@@ -68,21 +71,25 @@ namespace BounceAndDestroy
 
         }
 
-       public  void OnContinuar() {
+       public  void OnContinuar()
+        {
             Time.timeScale = 1;
+
             PausaTexto.gameObject.SetActive(false);
             botonContinuar.gameObject.SetActive(false);
             botonMenu.gameObject.SetActive(false);
         }
 
-        public void OnMenuPrincipal() {
+        public void OnMenuPrincipal()
+        {
             Time.timeScale = 1;
-            SceneManager.LoadScene("Menu");
+            
+            SceneLoader.Instance.LoadNextScene();
         }
 
-        public void OnReintentar() {
-
-            foreach (GameObject go in GameObject.FindObjectsOfType(typeof(GameObject)))
+        public void OnReintentar()
+        {
+            foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
             {
                 if (go.name == "Sphere(Clone)")
                 {
@@ -102,16 +109,20 @@ namespace BounceAndDestroy
                 }
 
             }
+
             handheld_vida.SetActive(true);
+
             GameObject.Find("GameMaster").GetComponent<ControlOleadas>().SetOleadaActual(0);
             ControladorWaves.WaveEnd = 0;
-            GameObject.Find("GameMaster").GetComponent<Vida>().SetVida(100);
+            GameObject.Find("GameMaster").GetComponent<Life>().SetVida(100);
+
             Time.timeScale = 1;
+
             PausaTexto.gameObject.SetActive(false);
             botonReiniciar.gameObject.SetActive(false);
             botonMenu.gameObject.SetActive(false);
         }
 
-
+        #endregion
     }
 }
