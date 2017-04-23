@@ -76,7 +76,7 @@ namespace BounceAndDestroy
         // Update is called once per frame
         void Update()
         {
-            OleadaActual = GameObject.Find("GameMaster").GetComponent<ControlOleadas>().GetOleadaActual();
+            OleadaActual = GameObject.Find("GameMaster").GetComponent<WaveController>().GetActualWave();
             if (OleadaActual == 0 && WaveController.waveEnd == 0)
             {
                 cantidadMaxShield= backupCMS;

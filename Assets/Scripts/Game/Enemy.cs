@@ -2,9 +2,14 @@
 
 namespace BounceAndDestroy
 {
-    public class MenuEnemies : MonoBehaviour
+    public class Enemy : MonoBehaviour
     {
         #region Properties
+
+        [SerializeField]
+        private bool isInMenu;
+
+        [Space(10f)]
 
         [SerializeField]
         private float velocity;
@@ -14,7 +19,7 @@ namespace BounceAndDestroy
         [Space(10f)]
 
         [SerializeField] [Range(0, 1)]
-        private float smoothingFactor = 1.0f;
+        private float smoothingFactor = 1.0f;        
 
         //Cached components
         private new Rigidbody rigidbody;
@@ -32,6 +37,14 @@ namespace BounceAndDestroy
 
         void Start()
         {
+            if (!isInMenu)
+            {
+                if (gameObject.tag == "Ball" || gameObject.tag == "Default02")
+                {
+                    gameObject.GetComponent<Renderer>().material.color = Color.green;
+                }
+            }
+
             rigidbody.AddForce(transform.right * velocity);
         }
 
@@ -53,9 +66,9 @@ namespace BounceAndDestroy
 
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Nucleo"))
+            if (collision.gameObject.CompareTag("Core"))
             {
-                GameObject.Find("GameMaster").GetComponent<Life>().Vida_nucleo();
+                GameObject.FindGameObjectWithTag("GameController").GetComponent<Life>().CoreLife();
             }
         }
 

@@ -49,7 +49,7 @@ namespace BounceAndDestroy
                 menuButton.gameObject.SetActive(true);
             }
 
-            if (GameObject.Find("GameMaster").GetComponent<ControlOleadas>().GetOleadaActual()==3 && WaveController.waveEnd == 0) {
+            if (GameObject.Find("GameMaster").GetComponent<WaveController>().GetActualWave()==3 && WaveController.waveEnd == 0) {
                 Time.timeScale = 0;
                 menuButton.gameObject.SetActive(true);
                 winText.gameObject.SetActive(true);
@@ -127,7 +127,7 @@ namespace BounceAndDestroy
 
             handheld_vida.SetActive(true);
 
-            GameObject.Find("GameMaster").GetComponent<ControlOleadas>().SetOleadaActual(0);
+            GameObject.Find("GameMaster").GetComponent<WaveController>().SetActualWave(0);
             WaveController.waveEnd = 0;
             GameObject.Find("GameMaster").GetComponent<Life>().SetVida(100);
 

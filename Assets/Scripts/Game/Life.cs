@@ -35,7 +35,7 @@ public class Life : MonoBehaviour {
         }
     }
 
-    public void Vida_nucleo()
+    public void CoreLife()
     { 
         if (vida > 0)
         {

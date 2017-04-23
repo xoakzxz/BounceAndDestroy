@@ -1,73 +1,79 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 namespace BounceAndDestroy
 {
     public class Shield : MonoBehaviour
     {
         [SerializeField]
-        private float Velocidad;
+        private float velocity;
 
-        void OnCollisionEnter(Collision col)
+        void OnCollisionEnter(Collision collision)
         {
-            if (col.gameObject.tag == "Bolas")
+            if (collision.gameObject.tag == "Ball")
             {
-                Renderer color = col.gameObject.GetComponent<Renderer>();
+                Renderer color = collision.gameObject.GetComponent<Renderer>();
 
                 if (color.material.color == Color.green)
                 {
-                    col.gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+                    collision.gameObject.GetComponent<Renderer>().material.color = Color.yellow;
                 }
                 else if (color.material.color == Color.yellow)
                 {
 
-                    col.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    collision.gameObject.GetComponent<Renderer>().material.color = Color.red;
                 }
                 else
                 {
-                    // col.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    PoolBolas1.Instance.ReleaseBolas(col.gameObject.GetComponent<Rigidbody>());
+                    PoolBolas1.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
                 }
 
             }
-            else if (col.gameObject.tag == "BolaMediana")
+            else if (collision.gameObject.tag == "BallMedium")
             {
-                PoolBolas2.Instance.ReleaseBolas(col.gameObject.GetComponent<Rigidbody>());
+                PoolBolas2.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
                 Rigidbody bola = PoolBolas1.Instance.GetBolas();
-                bola.transform.position = col.gameObject.transform.position;
+                bola.transform.position = collision.gameObject.transform.position;
                 Rigidbody bola2 = PoolBolas1.Instance.GetBolas();
-                bola2.transform.position = col.gameObject.transform.position;
+                bola2.transform.position = collision.gameObject.transform.position;
 
-                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,col.gameObject));
+                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,collision.gameObject));
                 
 
             }
-            else if (col.gameObject.tag == "BolaGrande")
+            else if (collision.gameObject.tag == "BallBig")
             {
-                PoolBolas3.Instance.ReleaseBolas(col.gameObject.GetComponent<Rigidbody>());
+                PoolBolas3.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
                 Rigidbody bola = PoolBolas2.Instance.GetBolas();
-                bola.transform.position = col.gameObject.transform.position;
+                bola.transform.position = collision.gameObject.transform.position;
                 Rigidbody bola2 = PoolBolas2.Instance.GetBolas();
-                bola2.transform.position = col.gameObject.transform.position;
+                bola2.transform.position = collision.gameObject.transform.position;
                
-                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,col.gameObject));
+                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,collision.gameObject));
             }
         }
 
         IEnumerator desactivarColisiones(GameObject a, GameObject b,GameObject c)
         {
-            if (c.tag == "BolaGrande")
+            if (c.tag == "BallBig")
             {
-                a.tag = "Default";
-                b.tag = "Default";
+                a.tag = "Default01";
+                b.tag = "Default01";
+
                 yield return new WaitForSeconds(0.3f);
-                a.tag = "BolaMediana";
-                b.tag = "BolaMediana";
+
+                a.tag = "BallMedium";
+                b.tag = "BallMedium";
 
             }
-            else if (c.tag == "BolaMediana") {
-                a.tag = "Default2";
-                b.tag = "Default2";
+            else if (c.tag == "BolaMediana")
+            {
+                a.tag = "Default02";
+                b.tag = "Default02";
+
                 yield return new WaitForSeconds(0.3f);
+
                 a.tag = "Bolas";
                 b.tag = "Bolas";
             }
