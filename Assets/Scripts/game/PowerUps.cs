@@ -77,7 +77,7 @@ namespace BounceAndDestroy
         void Update()
         {
             OleadaActual = GameObject.Find("GameMaster").GetComponent<ControlOleadas>().GetOleadaActual();
-            if (OleadaActual == 0 && ControladorWaves.WaveEnd == 0)
+            if (OleadaActual == 0 && WaveController.waveEnd == 0)
             {
                 cantidadMaxShield= backupCMS;
                 cantidadHpup = backupCHP ;

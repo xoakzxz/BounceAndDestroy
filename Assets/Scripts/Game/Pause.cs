@@ -10,11 +10,11 @@ namespace BounceAndDestroy
         #region Properties
 
         private GameObject canvas;
-        private Transform PausaTexto;
-        private Transform botonContinuar;
-        private Transform botonMenu;
-        private Transform botonReiniciar;
-        private Transform ganarTexto;
+        private Transform pauseText;
+        private Transform continueButton;
+        private Transform menuButton;
+        private Transform resetButton;
+        private Transform winText;
 
         [SerializeField]
         private GameObject handheld_vida;
@@ -28,31 +28,31 @@ namespace BounceAndDestroy
         void Awake()
         {
             canvas = GameObject.Find("CanvasPowerUps");
-            PausaTexto = canvas.transform.FindChild("PausaText");
-            botonContinuar = canvas.transform.FindChild("Continuar");
-            botonMenu = canvas.transform.FindChild("MenuPrincipal");
-            botonReiniciar = canvas.transform.FindChild("Reintentar");
-            ganarTexto = canvas.transform.FindChild("TextoGanar");
+            pauseText = canvas.transform.FindChild("PausaText");
+            continueButton = canvas.transform.FindChild("Continuar");
+            menuButton = canvas.transform.FindChild("MenuPrincipal");
+            resetButton = canvas.transform.FindChild("Reintentar");
+            winText = canvas.transform.FindChild("TextoGanar");
         }
 
         void Update()
         {
-            Debug.Log(ControladorWaves.WaveEnd);
+            Debug.Log(WaveController.waveEnd);
             vida= GameObject.Find("GameMaster").GetComponent<Life>().GetVida();
 
             if (vida <= 0)
             {
                 Time.timeScale = 0;
-                PausaTexto.gameObject.SetActive(true);
-                PausaTexto.GetComponent<Text>().text = "GameOver";
-                botonReiniciar.gameObject.SetActive(true);
-                botonMenu.gameObject.SetActive(true);
+                pauseText.gameObject.SetActive(true);
+                pauseText.GetComponent<Text>().text = "GameOver";
+                resetButton.gameObject.SetActive(true);
+                menuButton.gameObject.SetActive(true);
             }
 
-            if (GameObject.Find("GameMaster").GetComponent<ControlOleadas>().GetOleadaActual()==3 && ControladorWaves.WaveEnd == 0) {
+            if (GameObject.Find("GameMaster").GetComponent<ControlOleadas>().GetOleadaActual()==3 && WaveController.waveEnd == 0) {
                 Time.timeScale = 0;
-                botonMenu.gameObject.SetActive(true);
-                ganarTexto.gameObject.SetActive(true);
+                menuButton.gameObject.SetActive(true);
+                winText.gameObject.SetActive(true);
 
             }
         }
@@ -64,10 +64,10 @@ namespace BounceAndDestroy
         public void OnPausa()
         {
             Time.timeScale = 0;
-            PausaTexto.gameObject.SetActive(true);
-            PausaTexto.GetComponent<Text>().text = "Pausa";
-            botonContinuar.gameObject.SetActive(true);
-            botonMenu.gameObject.SetActive(true);
+            pauseText.gameObject.SetActive(true);
+            pauseText.GetComponent<Text>().text = "Pausa";
+            continueButton.gameObject.SetActive(true);
+            menuButton.gameObject.SetActive(true);
 
         }
 
@@ -75,9 +75,9 @@ namespace BounceAndDestroy
         {
             Time.timeScale = 1;
 
-            PausaTexto.gameObject.SetActive(false);
-            botonContinuar.gameObject.SetActive(false);
-            botonMenu.gameObject.SetActive(false);
+            pauseText.gameObject.SetActive(false);
+            continueButton.gameObject.SetActive(false);
+            menuButton.gameObject.SetActive(false);
         }
 
         public void OnMenuPrincipal()
@@ -89,23 +89,38 @@ namespace BounceAndDestroy
 
         public void OnReintentar()
         {
-            foreach (GameObject go in FindObjectsOfType(typeof(GameObject)))
+            foreach (GameObject gameObject in FindObjectsOfType(typeof(GameObject)))
             {
-                if (go.name == "Sphere(Clone)")
+                switch (gameObject.name)
                 {
-                    PoolBolas1.Instance.ReleaseBolas(go.gameObject.GetComponent<Rigidbody>());
+                    case "Sphere(Clone)":
+                        break;
+
+                    case "Mediana(Clone)":
+                        break;
+
+                    case "grande(Clone)":
+                        break;
+
+                    case "Pua(Clone)":
+                        break;
                 }
-                else if (go.name == "Mediana(Clone)")
+
+                if (gameObject.name == "Sphere(Clone)")
                 {
-                    PoolBolas2.Instance.ReleaseBolas(go.gameObject.GetComponent<Rigidbody>());
+                    PoolBolas1.Instance.ReleaseBolas(gameObject.gameObject.GetComponent<Rigidbody>());
                 }
-                else if (go.name == "grande(Clone)")
+                else if (gameObject.name == "Mediana(Clone)")
                 {
-                    PoolBolas3.Instance.ReleaseBolas(go.gameObject.GetComponent<Rigidbody>());
+                    PoolBolas2.Instance.ReleaseBolas(gameObject.gameObject.GetComponent<Rigidbody>());
                 }
-                else if (go.name == "Pua(Clone)")
+                else if (gameObject.name == "grande(Clone)")
                 {
-                    PoolBolas4.Instance.ReleaseBolas(go.gameObject.GetComponent<Rigidbody>());
+                    PoolBolas3.Instance.ReleaseBolas(gameObject.gameObject.GetComponent<Rigidbody>());
+                }
+                else if (gameObject.name == "Pua(Clone)")
+                {
+                    PoolBolas4.Instance.ReleaseBolas(gameObject.gameObject.GetComponent<Rigidbody>());
                 }
 
             }
@@ -113,14 +128,14 @@ namespace BounceAndDestroy
             handheld_vida.SetActive(true);
 
             GameObject.Find("GameMaster").GetComponent<ControlOleadas>().SetOleadaActual(0);
-            ControladorWaves.WaveEnd = 0;
+            WaveController.waveEnd = 0;
             GameObject.Find("GameMaster").GetComponent<Life>().SetVida(100);
 
             Time.timeScale = 1;
 
-            PausaTexto.gameObject.SetActive(false);
-            botonReiniciar.gameObject.SetActive(false);
-            botonMenu.gameObject.SetActive(false);
+            pauseText.gameObject.SetActive(false);
+            resetButton.gameObject.SetActive(false);
+            menuButton.gameObject.SetActive(false);
         }
 
         #endregion

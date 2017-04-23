@@ -43,7 +43,6 @@ namespace BounceAndDestroy
             ball.GetComponent<Rigidbody>().AddForce(transform.right * velocity);
 
             yield return new WaitForSeconds(0.1f);
-
         }
 
         #endregion

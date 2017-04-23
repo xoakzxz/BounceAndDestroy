@@ -3,39 +3,33 @@ using System.Collections;
 using UnityEngine.UI;
 namespace BounceAndDestroy
 {
-    public class Puas : MonoBehaviour
+    public class Spikes : MonoBehaviour
     {
         private int timer;
-        private float tiempo;
+        private float time;
         private Transform canvas;
         private Transform text;
-   
 
-        // Use this for initialization
-        void Awake() {
+        void Awake()
+        {
             timer = 0;
-            tiempo = 5f;
+            time = 5f;
             canvas = gameObject.transform.FindChild("Canvas");
             text = canvas.transform.Find("Timer");
-            
         }
-
-
 
         void Start()
         {
             text.localPosition = text.parent.localPosition;
             StartCoroutine(Explotar());
-            
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (timer == 1)
             {
-                text.GetComponent<Text>().text = tiempo.ToString("N0");
-                tiempo -= Time.deltaTime;
+                text.GetComponent<Text>().text = time.ToString("N0");
+                time -= Time.deltaTime;
             }
         }
 
@@ -54,8 +48,6 @@ namespace BounceAndDestroy
             PoolBolas4.Instance.ReleaseBolas(gameObject.GetComponent<Rigidbody>());
             yield return new WaitForSeconds(0.1f);
             timer = 0;
-
-
         }
     }
 }

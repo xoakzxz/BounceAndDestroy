@@ -42,7 +42,7 @@ namespace BounceAndDestroy
            
             OleadaActual = 0;
             Tiempo = 5f;
-            ControladorWaves.WaveEnd = 0;
+            WaveController.waveEnd = 0;
         }
 
         void Start()
@@ -56,7 +56,7 @@ namespace BounceAndDestroy
         {
             
 
-            if (OleadaActual == 0 && ControladorWaves.WaveEnd == 0)
+            if (OleadaActual == 0 && WaveController.waveEnd == 0)
             {
                 Oleada.gameObject.SetActive(true);
                 tiempoTexto.gameObject.SetActive(true);
@@ -83,7 +83,7 @@ namespace BounceAndDestroy
 
 
             }
-            else if (OleadaActual == 1 && ControladorWaves.WaveEnd == 0)
+            else if (OleadaActual == 1 && WaveController.waveEnd == 0)
             {
                 Oleada.gameObject.SetActive(true);
                 tiempoTexto.gameObject.SetActive(true);
@@ -120,7 +120,7 @@ namespace BounceAndDestroy
                     Tiempo -= Time.deltaTime;
                 }
 
-            } else if (OleadaActual == 2 && ControladorWaves.WaveEnd == 0) {
+            } else if (OleadaActual == 2 && WaveController.waveEnd == 0) {
                 Oleada.gameObject.SetActive(true);
                 tiempoTexto.gameObject.SetActive(true);
                 Oleada.text = "La Ultima Oleada comienza en ";

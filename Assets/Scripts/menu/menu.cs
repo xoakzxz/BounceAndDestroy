@@ -1,203 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BounceAndDestroy
 {
-    public enum GameStates { main, reglas };
-
     public class Menu : MonoBehaviour
     {
         #region Properties
 
-        private GameStates currentState;
-
         [Header("Menu elements")]
 
         [SerializeField]
-        private GameObject mainMenu;
-        [SerializeField]
-        private GameObject rulesMenu;
+        private GameObject[] menus = new GameObject[2];
 
         [Space(10f)]
 
         [SerializeField]
-        private GameObject bola1;
-        [SerializeField]
-        private GameObject ballBig;
-        [SerializeField]
-        private GameObject ballMedium;
-        [SerializeField]
-        private GameObject pua;
-        [SerializeField]
-        private GameObject perder;
-        [SerializeField]
-        private GameObject powerUp1;
-        [SerializeField]
-        private GameObject powerUp2;
-        [SerializeField]
-        private GameObject controls;
-        [SerializeField]
-        private Text description;
+        private GameObject[] ruleElements = new GameObject[8];
 
-        [Header("UI elements")]
+        [Space(10f)]
 
         [SerializeField]
         private Text actualRule;
+        [SerializeField]
+        private Text description;
 
-        private int rulesMenuControl;
+        [Space(10f)]
+
+        [SerializeField]
+        private string[] rules = new string[8];
+
+        //Hidden
+        private int rulesControl;
 
         #endregion
 
-        #region Unity Functions
+        #region Unity functions
 
-        void Awake()
+        void Start()
         {
-            rulesMenuControl = 1;
-        }
-
-        void Update()
-        {
-            switch (currentState)
-            {
-                case GameStates.main:
-                    mainMenu.SetActive(true);
-                    rulesMenu.SetActive(false);
-                    break;
-
-                case GameStates.reglas:
-                    mainMenu.SetActive(false);
-                    rulesMenu.SetActive(true);
-                    break;
-            }
-
-            if (rulesMenuControl < 1)
-            {
-                rulesMenuControl = 1;
-            }
-
-            if (rulesMenuControl > 8)
-            {
-                rulesMenuControl = 8;
-            }
-
-            switch (rulesMenuControl)
-            {
-                case 1:
-                    actualRule.text = "1/8";
-                    description.text = "Las bolas normales comenzaran en color verde, al colisionar con el escudo pasan a color amarillo y rojo y luego se destruiran";
-                    bola1.SetActive(true);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 2:
-                    actualRule.text = "2/8";
-                    description.text = "las bolas grandes al colisionar con el escudo se separaran en dos bolas medianas ";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(true);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 3:
-                    actualRule.text = "3/8";
-                    description.text = "las bolas medianas al colisionar con el escudo se separaran en dos bolas normales verdes";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(true);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 4:
-                    actualRule.text = "4/8";
-                    description.text = "las puas a los 5 segundos explotaran separandose en 4-6 bolas normales verdes ";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(true);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 5:
-                    actualRule.text = "5/8";
-                    description.text = "el jugador perdera si la vida del nucleo llega a 0";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(true);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 6:
-                    actualRule.text = "6/8";
-                    description.text = "al activar MaxShield el nucleo sera rodeado 10 segundos por una defensa perfecta de escudos, usalo en situaciones peligrosas, este se usa con click izquierdo";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(true);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(false);
-                    break;
-
-                case 7:
-                    actualRule.text = "7/8";
-                    description.text = "Al activar HPUP el nucleo recuperara 20 puntos de vida, este se usa con click izquierdo ";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(true);
-                    controls.SetActive(false);
-                    break;
-
-                case 8:
-                    actualRule.text = "8/8";
-                    description.text = "El personaje se mueve presionando click izquierdo, y seguira la posicion del mouse ";
-                    bola1.SetActive(false);
-                    ballMedium.SetActive(false);
-                    ballBig.SetActive(false);
-                    pua.SetActive(false);
-                    perder.SetActive(false);
-                    powerUp1.SetActive(false);
-                    powerUp2.SetActive(false);
-                    controls.SetActive(true);
-                    break;
-            }
+            menus[0].SetActive(true);
+            menus[1].SetActive(false);
         }
 
         #endregion
 
-        #region Buttons Functions
-
-        public void OnExit()
-        {
-            Application.Quit();
-        }
+        #region Buttons functions
 
         public void OnPlay()
         {
@@ -206,24 +53,115 @@ namespace BounceAndDestroy
 
         public void OnRules()
         {
-            currentState = GameStates.reglas;
+            rulesControl = 1;
+
+            menus[0].SetActive(false);
+            menus[1].SetActive(true);
+
+            UpdateRules();
+        }
+
+        public void OnExit()
+        {
+            Application.Quit();
         }
 
         public void OnBack()
         {
-            currentState = GameStates.main;
+            rulesControl = 1;
 
-            rulesMenuControl = 1;
+            menus[1].SetActive(false);
+            menus[0].SetActive(true);
+
+            UpdateRules();
         }
 
         public void NextRule()
         {
-            rulesMenuControl++;
+            rulesControl++;
+
+            UpdateRules();
         }
 
         public void LastRule()
         {
-            rulesMenuControl--;
+            rulesControl--;
+
+            UpdateRules();
+        }
+
+        private void UpdateRules()
+        {
+            actualRule.text = string.Format("{0}/8", rulesControl);
+
+            switch (rulesControl)
+            {
+                case 0:
+                    OnBack();
+                    break;
+
+                case 1:
+                    description.text = rules[0];
+                    ruleElements[7].SetActive(false);
+                    ruleElements[0].SetActive(true);
+                    ruleElements[1].SetActive(false);
+                    break;
+
+                case 2:
+                    description.text = rules[1];
+                    ruleElements[0].SetActive(false);
+                    ruleElements[1].SetActive(true);
+                    ruleElements[2].SetActive(false);
+                    break;
+
+                case 3:
+                    description.text = rules[2];
+                    ruleElements[1].SetActive(false);
+                    ruleElements[2].SetActive(true);
+                    ruleElements[3].SetActive(false);
+                    break;
+
+                case 4:
+                    description.text = rules[3];
+                    ruleElements[2].SetActive(false);
+                    ruleElements[3].SetActive(true);
+                    ruleElements[4].SetActive(false);
+                    break;
+
+                case 5:
+                    description.text = rules[4];
+                    ruleElements[3].SetActive(false);
+                    ruleElements[4].SetActive(true);
+                    ruleElements[5].SetActive(false);
+                    break;
+
+                case 6:
+                    description.text = rules[5];
+                    ruleElements[4].SetActive(false);
+                    ruleElements[5].SetActive(true);
+                    ruleElements[6].SetActive(false);
+                    break;
+
+                case 7:
+                    description.text = rules[6];
+                    ruleElements[5].SetActive(false);
+                    ruleElements[6].SetActive(true);
+                    ruleElements[7].SetActive(false);
+                    break;
+
+                case 8:
+                    description.text = rules[7];
+                    ruleElements[6].SetActive(false);
+                    ruleElements[7].SetActive(true);
+                    break;
+
+                case 9:
+                    OnBack();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         #endregion

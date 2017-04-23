@@ -42,7 +42,7 @@ namespace BounceAndDestroy
 
         public Rigidbody GetBolas()
         {
-            ControladorWaves.WaveEnd++;
+            WaveController.waveEnd++;
             if (Bolas.Count == 0)
                 AddBolas();
             return Allocatebolas();
@@ -50,7 +50,7 @@ namespace BounceAndDestroy
 
         public void ReleaseBolas(Rigidbody bola)
         {
-            ControladorWaves.WaveEnd--;
+            WaveController.waveEnd--;
             bola.gameObject.SetActive(false);
             bola.GetComponent<Renderer>().material.color = Color.green;
             Bolas.Add(bola);
