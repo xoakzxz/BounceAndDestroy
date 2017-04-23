@@ -48,7 +48,7 @@ public class SceneLoader : MonoBehaviour {
 
     public void LoadNextScene()
     {
-        switch (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCountInBuildSettings)
+        switch (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCountInBuildSettings-1)
         {
             case true:
                 sceneToLoad = SceneManager.GetActiveScene().buildIndex + 1;

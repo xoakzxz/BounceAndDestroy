@@ -105,6 +105,11 @@ namespace BounceAndDestroy
 
         public void OnRetry()
         {
+            if (PauseManager.Instance.GetPause())
+            {
+                PauseManager.Instance.SetPause(false);
+            }
+
             SceneLoader.Instance.ReloadScene();
         }
 

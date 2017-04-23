@@ -89,9 +89,8 @@ namespace BounceAndDestroy
 
         private void AddBall(Rigidbody ball, int index)
         {
-            Rigidbody instance = Instantiate(ball);
+            Rigidbody instance = Instantiate(ball, transform.position, Quaternion.identity, transform);
 
-            instance.transform.parent = gameObject.transform;
             instance.gameObject.SetActive(false);
 
             balls[index].Add(instance);
@@ -105,6 +104,7 @@ namespace BounceAndDestroy
             ballList.RemoveAt(balls[index].Count - 1);
             ball.gameObject.SetActive(true);
             ball.gameObject.transform.parent = null;
+            ball.gameObject.transform.position = position;
 
             return ball;
         }
