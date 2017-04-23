@@ -62,11 +62,18 @@ public class SceneLoader : MonoBehaviour {
         }
     }
 
+    public void ReloadScene()
+    {
+        sceneToLoad = SceneManager.GetActiveScene().buildIndex;
+
+        StartCoroutine(LoadScene());
+    }
+
     #endregion
 
     #region Coroutines
 
-    public IEnumerator LoadScene()
+    private IEnumerator LoadScene()
     {
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
     }

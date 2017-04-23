@@ -10,8 +10,12 @@ namespace BounceAndDestroy
 
         [Header("Pool settings")]
 
-        public int[] ballsPoolSize = new int[4];
-        public Rigidbody[] ballsPrefabs = new Rigidbody[4];
+        [SerializeField]
+        private int[] ballsPoolSize = new int[4];
+        [SerializeField]
+        private Rigidbody[] ballsPrefabs = new Rigidbody[4];
+
+        [HideInInspector]
         public List<Rigidbody>[] balls = new List<Rigidbody>[4];
 
         //Singleton
@@ -52,11 +56,11 @@ namespace BounceAndDestroy
 
         private void PreparePool()
         {
-            for (int listIndex = 0; listIndex < balls.Length; listIndex++)
+            for (int i = 0; i < balls.Length; i++)
             {
-                for (int i = 0; i < ballsPoolSize[listIndex]; i++)
+                for (int j = 0; j < ballsPoolSize[i]; j++)
                 {
-                    AddBall(ballsPrefabs[listIndex], listIndex);
+                    AddBall(ballsPrefabs[i], i);
                 }
             }
         }
@@ -77,6 +81,7 @@ namespace BounceAndDestroy
         {
             WaveController.waveEnd--;
 
+            ball.transform.parent = gameObject.transform;
             ball.gameObject.SetActive(false);
             ball.GetComponent<Renderer>().material.color = Color.green;
             balls[index].Add(ball);
@@ -85,8 +90,11 @@ namespace BounceAndDestroy
         private void AddBall(Rigidbody ball, int index)
         {
             Rigidbody instance = Instantiate(ball);
+
+            instance.transform.parent = gameObject.transform;
             instance.gameObject.SetActive(false);
-            balls[index].Add(ball);
+
+            balls[index].Add(instance);
         }
 
         private Rigidbody ObtainBall(int index, Vector3 position)
@@ -96,6 +104,7 @@ namespace BounceAndDestroy
             Rigidbody ball = ballList[ballList.Count - 1];
             ballList.RemoveAt(balls[index].Count - 1);
             ball.gameObject.SetActive(true);
+            ball.gameObject.transform.parent = null;
 
             return ball;
         }

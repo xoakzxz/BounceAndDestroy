@@ -12,7 +12,7 @@ public class ColorChange : MonoBehaviour {
 
     #endregion
 
-    #region Functions
+    #region Unity functions
 
     void OnCollisionEnter(Collision colision)
     {
@@ -26,7 +26,6 @@ public class ColorChange : MonoBehaviour {
             }
             else if (color.material.color == Color.yellow)
             {
-
                 colision.gameObject.GetComponent<Renderer>().material.color = Color.red;
             }
             else
@@ -34,6 +33,7 @@ public class ColorChange : MonoBehaviour {
                 colision.gameObject.SetActive(false);
                 colision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 colision.gameObject.GetComponent<Transform>().position = spawnPoint.position;
+
                 StartCoroutine(SpawnBall(colision.gameObject));
             }
         }

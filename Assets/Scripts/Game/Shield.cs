@@ -6,8 +6,14 @@ namespace BounceAndDestroy
 {
     public class Shield : MonoBehaviour
     {
+        #region Properties
+
         [SerializeField]
         private float velocity;
+
+        #endregion
+
+        #region Unity functions
 
         void OnCollisionEnter(Collision collision)
         {
@@ -21,64 +27,64 @@ namespace BounceAndDestroy
                 }
                 else if (color.material.color == Color.yellow)
                 {
-
                     collision.gameObject.GetComponent<Renderer>().material.color = Color.red;
                 }
                 else
                 {
-                    PoolBolas1.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
+                    PoolManager.Instance.ReleaseBall(collision.gameObject.GetComponent<Rigidbody>(), 0);
                 }
-
             }
             else if (collision.gameObject.tag == "BallMedium")
             {
-                PoolBolas2.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
-                Rigidbody bola = PoolBolas1.Instance.GetBolas();
-                bola.transform.position = collision.gameObject.transform.position;
-                Rigidbody bola2 = PoolBolas1.Instance.GetBolas();
-                bola2.transform.position = collision.gameObject.transform.position;
+                PoolManager.Instance.ReleaseBall(collision.gameObject.GetComponent<Rigidbody>(), 1);
 
-                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,collision.gameObject));
-                
+                Rigidbody bola1 = PoolManager.Instance.GetBall(0, collision.gameObject.transform.position);
+                Rigidbody bola2 = PoolManager.Instance.GetBall(0, collision.gameObject.transform.position);
 
+                StartCoroutine(DisableColitions(bola1.gameObject,bola2.gameObject,collision.gameObject));
             }
             else if (collision.gameObject.tag == "BallBig")
             {
-                PoolBolas3.Instance.ReleaseBolas(collision.gameObject.GetComponent<Rigidbody>());
-                Rigidbody bola = PoolBolas2.Instance.GetBolas();
-                bola.transform.position = collision.gameObject.transform.position;
-                Rigidbody bola2 = PoolBolas2.Instance.GetBolas();
-                bola2.transform.position = collision.gameObject.transform.position;
+                PoolManager.Instance.ReleaseBall(collision.gameObject.GetComponent<Rigidbody>(), 2);
+
+                Rigidbody bola1 = PoolManager.Instance.GetBall(1, collision.gameObject.transform.position);
+                Rigidbody bola2 = PoolManager.Instance.GetBall(1, collision.gameObject.transform.position);
                
-                StartCoroutine(desactivarColisiones(bola.gameObject,bola2.gameObject,collision.gameObject));
+                StartCoroutine(DisableColitions(bola1.gameObject, bola2.gameObject, collision.gameObject));
             }
         }
 
-        IEnumerator desactivarColisiones(GameObject a, GameObject b,GameObject c)
+        #endregion
+
+        #region Coroutines
+
+        private IEnumerator DisableColitions(GameObject newBall01, GameObject newBall02, GameObject hittedBall)
         {
-            if (c.tag == "BallBig")
+            if (hittedBall.tag == "BallBig")
             {
-                a.tag = "Default01";
-                b.tag = "Default01";
+                newBall01.tag = "Default01";
+                newBall02.tag = "Default01";
 
                 yield return new WaitForSeconds(0.3f);
 
-                a.tag = "BallMedium";
-                b.tag = "BallMedium";
+                newBall01.tag = "BallMedium";
+                newBall02.tag = "BallMedium";
 
             }
-            else if (c.tag == "BolaMediana")
+            else if (hittedBall.tag == "BallMedium")
             {
-                a.tag = "Default02";
-                b.tag = "Default02";
+                newBall01.tag = "Default02";
+                newBall02.tag = "Default02";
 
                 yield return new WaitForSeconds(0.3f);
 
-                a.tag = "Bolas";
-                b.tag = "Bolas";
+                newBall01.tag = "Ball";
+                newBall02.tag = "Ball";
             }
            
             yield return new WaitForSeconds(0.01f);
         }
+
+        #endregion
     }
 }

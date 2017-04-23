@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class Life : MonoBehaviour {
+
+    #region Properties
 
     [SerializeField]
     private Scrollbar scroll_vida;
@@ -11,6 +12,9 @@ public class Life : MonoBehaviour {
 
     private float vida;
 
+    #endregion
+
+    #region Unity functions
 
     void Start()
     {
@@ -35,6 +39,10 @@ public class Life : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region Class functions
+
     public void CoreLife()
     { 
         if (vida > 0)
@@ -44,18 +52,20 @@ public class Life : MonoBehaviour {
         }
     }
 
-    public void AumentarVida()
+    public void IncreaseLife()
     {
         vida = vida + 20;
     }
 
-    public float GetVida()
+    public float GetLife()
     {
         return vida;
     }
 
-    public void SetVida(float a)
+    public void SetLife(float a)
     {
         vida = a;
     }
+
+    #endregion
 }

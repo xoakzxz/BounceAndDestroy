@@ -6,9 +6,9 @@ namespace BounceAndDestroy
     public class PowerUps : MonoBehaviour
     {
         [SerializeField]
-        private int cantidadMaxShield;
+        private int maxShieldAmount;
         [SerializeField]
-        private int cantidadHpup;
+        private int HPUPAmount;
 
         private int backupCMS;
         private int backupCHP;
@@ -28,7 +28,9 @@ namespace BounceAndDestroy
         [SerializeField]
         private Text textMaxHp;
 
+        [SerializeField]
         private Transform CantidadMS;
+        [SerializeField]
         private Transform Cantidadhp;
 
         //int que controla si se ha usado el max shield
@@ -59,30 +61,29 @@ namespace BounceAndDestroy
             tiempoHp = 20f;
             canvas = GameObject.Find("CanvasPowerUps");
             
-            CantidadMS= canvas.transform.FindChild("CantidadesMaxShield");
-            Cantidadhp= canvas.transform.FindChild("CantidadesHPup");
-            backupCMS=cantidadMaxShield;
-            backupCHP=cantidadHpup;
+            backupCMS=maxShieldAmount;
+            backupCHP=HPUPAmount;
 
     }
 
 
         void Start()
         {
-            CantidadMS.GetComponent<Text>().text = "X" + cantidadMaxShield;
-            Cantidadhp.GetComponent<Text>().text = "X" + cantidadHpup;
+            CantidadMS.GetComponent<Text>().text = "X" + maxShieldAmount;
+            Cantidadhp.GetComponent<Text>().text = "X" + HPUPAmount;
         }
 
         // Update is called once per frame
         void Update()
         {
-            OleadaActual = GameObject.Find("GameMaster").GetComponent<WaveController>().GetActualWave();
+            OleadaActual = GameObject.FindGameObjectWithTag("GameController").GetComponent<WaveController>().GetActualWave();
+
             if (OleadaActual == 0 && WaveController.waveEnd == 0)
             {
-                cantidadMaxShield= backupCMS;
-                cantidadHpup = backupCHP ;
-                CantidadMS.GetComponent<Text>().text = "X" + cantidadMaxShield;
-                Cantidadhp.GetComponent<Text>().text = "X" + cantidadHpup;
+                maxShieldAmount= backupCMS;
+                HPUPAmount = backupCHP ;
+                CantidadMS.GetComponent<Text>().text = "X" + maxShieldAmount;
+                Cantidadhp.GetComponent<Text>().text = "X" + HPUPAmount;
             }
 
             if (timerMS == 1) {
@@ -96,73 +97,80 @@ namespace BounceAndDestroy
             }
         }
 
-        public void OnMaxShield() {
-
+        public void OnMaxShield()
+        {
             if (controladorMS == false)
             {
                 StartCoroutine(MaxShield());
             }
-
         }
 
-        public void OnHpup() {
-
-            if (controladorHP==false) {
-                vida.GetComponent<Life>().AumentarVida();
-                StartCoroutine(HpUp());
+        public void OnHPUP()
+        {
+            if (controladorHP==false)
+            {
+                vida.GetComponent<Life>().IncreaseLife();
+                StartCoroutine(HPUP());
             }
         }
 
-
-        IEnumerator MaxShield() {
-
-            if (cantidadMaxShield > 0 )
+        private IEnumerator MaxShield()
+        {
+            if (maxShieldAmount > 0 )
             {
                 yield return new WaitForSeconds(0.1f);
+
                 controladorMS = true;
                 timerMS = 1;
-                cantidadMaxShield--;
-                CantidadMS.GetComponent<Text>().text = "X" + cantidadMaxShield;
+                maxShieldAmount--;
+                CantidadMS.GetComponent<Text>().text = "X" + maxShieldAmount;
                 Shield1.SetActive(true);
                 Shield2.SetActive(true);
                 Shield3.SetActive(true);
                 Shield4.SetActive(true);
+
                 yield return new WaitForSeconds(10f);
+
                 Shield1.SetActive(false);
                 Shield2.SetActive(false);
                 Shield3.SetActive(false);
                 Shield4.SetActive(false);
+
                 yield return new WaitForSeconds(0.1f);
+
                 controladorMS = false;
                 timerMS = 0;
                 tiempoMS = 10f;
                 textMaxShield.text = "MaxShield";
+
                 yield return new WaitForSeconds(0.1f);
             }
-            else {
+            else
+            {
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
-        IEnumerator HpUp() {
-            if (cantidadHpup>0) { 
+        private IEnumerator HPUP()
+        {
+            if (HPUPAmount>0)
+            { 
                 yield return new WaitForSeconds(0.1f);
                 
                 timerHP = 1;
                 controladorHP = true;
-                cantidadHpup--;
-                Cantidadhp.GetComponent<Text>().text = "X" + cantidadHpup;
+                HPUPAmount--;
+                Cantidadhp.GetComponent<Text>().text = "X" + HPUPAmount;
+
                 yield return new WaitForSeconds(20f);
+
                 controladorHP = false;
                 tiempoHp = 20f;
                 timerHP = 0;
                 textMaxHp.text = "HpUp";
+
                 yield return new WaitForSeconds(0.1f);
             }
-
         }
-
-        
-
     }
 }

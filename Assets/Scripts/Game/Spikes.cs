@@ -1,14 +1,22 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
+
 namespace BounceAndDestroy
 {
     public class Spikes : MonoBehaviour
     {
+        #region Properties
+
         private int timer;
         private float time;
+
         private Transform canvas;
         private Transform text;
+
+        #endregion
+
+        #region Unity functions
 
         void Awake()
         {
@@ -33,21 +41,32 @@ namespace BounceAndDestroy
             }
         }
 
+        #endregion
+
+        #region Coroutines
+
         IEnumerator Explotar()
         {
             yield return new WaitForSeconds(0.1f);
+
             timer = 1;
+
             yield return new WaitForSeconds(5f);
+
             float a = Random.Range(4f, 6f);
 
             for (int i = 0; i < a; i++)
             {
-                Rigidbody bola = PoolBolas1.Instance.GetBolas();
-                bola.transform.position = gameObject.transform.position;
+                PoolManager.Instance.GetBall(0, gameObject.transform.position);
             }
-            PoolBolas4.Instance.ReleaseBolas(gameObject.GetComponent<Rigidbody>());
+
+            PoolManager.Instance.ReleaseBall(gameObject.GetComponent<Rigidbody>(), 3);
+
             yield return new WaitForSeconds(0.1f);
+
             timer = 0;
         }
+
+        #endregion
     }
 }

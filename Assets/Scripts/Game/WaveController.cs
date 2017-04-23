@@ -26,12 +26,27 @@ namespace BounceAndDestroy
         //Static elements
         public static int waveEnd;
 
+        //Singleton
+        public static WaveController Instance
+        {
+            get; private set;
+        }
+
         #endregion
 
         #region Unity functions
 
         void Awake()
         {
+            if (Instance != null)
+            {
+                DestroyImmediate(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+
             wave1 = GameObject.Find("Wave1");
             wave2 = GameObject.Find("Wave2");
             wave3 = GameObject.Find("Wave3");
@@ -42,39 +57,36 @@ namespace BounceAndDestroy
             actualWave = 0;
             time = 5f;
 
-            WaveController.waveEnd = 0;
+            waveEnd = 0;
         }
 
         void Update()
         {
-            if (actualWave == 0 && WaveController.waveEnd == 0)
+            if (actualWave == 0 && waveEnd == 0)
             {
                 wave.gameObject.SetActive(true);
                 timeCounter.gameObject.SetActive(true);
                 wave.text = "La Primer Oleada comienza en ";
+
                 if (time < 0)
                 {
                     wave.gameObject.SetActive(false);
                     timeCounter.gameObject.SetActive(false);
                     actualWave = 1;
                     time = 5f;
-                    Rigidbody bullet = PoolBolas1.Instance.GetBolas();
-                    bullet.transform.position = wave1.transform.FindChild("1").position;
-                    Rigidbody bullet2 = PoolBolas1.Instance.GetBolas();
-                    bullet2.transform.position = wave1.transform.FindChild("2").position;
-                    Rigidbody bullet3 = PoolBolas1.Instance.GetBolas();
-                    bullet3.transform.position = wave1.transform.FindChild("3").position;
-                    Rigidbody bullet4 = PoolBolas1.Instance.GetBolas();
-                    bullet4.transform.position = wave1.transform.FindChild("4").position;
+
+                    PoolManager.Instance.GetBall(0, wave1.transform.FindChild("1").position);
+                    PoolManager.Instance.GetBall(0, wave1.transform.FindChild("2").position);
+                    PoolManager.Instance.GetBall(0, wave1.transform.FindChild("3").position);
+                    PoolManager.Instance.GetBall(0, wave1.transform.FindChild("4").position);
                 }
-                else {
+                else
+                {
                     timeCounter.text = time.ToString("N0");
                     time -= Time.deltaTime;
                 }
-
-
             }
-            else if (actualWave == 1 && WaveController.waveEnd == 0)
+            else if (actualWave == 1 && waveEnd == 0)
             {
                 wave.gameObject.SetActive(true);
                 timeCounter.gameObject.SetActive(true);
@@ -88,22 +100,17 @@ namespace BounceAndDestroy
                     timeCounter.gameObject.SetActive(false);
                     actualWave = 2;
                     time = 5f;
+
                     if (a == 1)
                     {
-                        Rigidbody bullet = PoolBolas3.Instance.GetBolas();
-                        bullet.transform.position = wave2.transform.FindChild("1").position;
-                        Rigidbody bullet2 = PoolBolas3.Instance.GetBolas();
-                        bullet2.transform.position = wave2.transform.FindChild("2").position;
-
+                        PoolManager.Instance.GetBall(2, wave2.transform.FindChild("1").position);
+                        PoolManager.Instance.GetBall(2, wave2.transform.FindChild("2").position);
                     }
-                    else {
-                        Rigidbody bullet = PoolBolas4.Instance.GetBolas();
-                        bullet.transform.position = wave3.transform.FindChild("1").position;
-                        Rigidbody bullet2 = PoolBolas3.Instance.GetBolas();
-                        bullet2.transform.position = wave3.transform.FindChild("2").position;
+                    else
+                    {
+                        PoolManager.Instance.GetBall(3, wave3.transform.FindChild("1").position);
+                        PoolManager.Instance.GetBall(2, wave3.transform.FindChild("2").position);
                     }
-
-
                 }
                 else
                 {
@@ -111,7 +118,9 @@ namespace BounceAndDestroy
                     time -= Time.deltaTime;
                 }
 
-            } else if (actualWave == 2 && WaveController.waveEnd == 0) {
+            }
+            else if (actualWave == 2 && waveEnd == 0)
+            {
                 wave.gameObject.SetActive(true);
                 timeCounter.gameObject.SetActive(true);
                 wave.text = "La Ultima Oleada comienza en ";
@@ -119,36 +128,30 @@ namespace BounceAndDestroy
                 if (time < 0)
                 {
                     int a = Random.Range(1, 4);
+
                     Debug.Log(a.ToString());
+
                     wave.gameObject.SetActive(false);
                     timeCounter.gameObject.SetActive(false);
                     actualWave = 3;
                     time = 5f;
+
                     if (a == 1)
                     {
-                        Rigidbody bullet = PoolBolas3.Instance.GetBolas();
-                        bullet.transform.position = wave4.transform.FindChild("1").position;
-                        Rigidbody bullet2 = PoolBolas3.Instance.GetBolas();
-                        bullet2.transform.position = wave4.transform.FindChild("2").position;
-                        Rigidbody bullet3 = PoolBolas3.Instance.GetBolas();
-                        bullet3.transform.position = wave4.transform.FindChild("3").position;
-
+                        PoolManager.Instance.GetBall(2, wave4.transform.FindChild("1").position);
+                        PoolManager.Instance.GetBall(2, wave4.transform.FindChild("2").position);
+                        PoolManager.Instance.GetBall(2, wave4.transform.FindChild("3").position);
                     }
                     else if (a == 2)
                     {
-                        Rigidbody bullet = PoolBolas4.Instance.GetBolas();
-                        bullet.transform.position = wave5.transform.FindChild("1").position;
-                        Rigidbody bullet2 = PoolBolas4.Instance.GetBolas();
-                        bullet2.transform.position = wave5.transform.FindChild("2").position;
+                        PoolManager.Instance.GetBall(3, wave5.transform.FindChild("1").position);
+                        PoolManager.Instance.GetBall(3, wave5.transform.FindChild("2").position);
                     }
                     else
                     {
-                        Rigidbody bullet = PoolBolas4.Instance.GetBolas();
-                        bullet.transform.position = wave6.transform.FindChild("1").position;
-                        Rigidbody bullet2 = PoolBolas3.Instance.GetBolas();
-                        bullet2.transform.position = wave6.transform.FindChild("2").position;
-                        Rigidbody bullet3 = PoolBolas3.Instance.GetBolas();
-                        bullet3.transform.position = wave6.transform.FindChild("3").position;
+                        PoolManager.Instance.GetBall(3, wave6.transform.FindChild("1").position);
+                        PoolManager.Instance.GetBall(2, wave6.transform.FindChild("2").position);
+                        PoolManager.Instance.GetBall(2, wave6.transform.FindChild("3").position);
                     }
                 }
                 else
