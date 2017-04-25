@@ -5,24 +5,21 @@ namespace BounceAndDestroy
 {
     public class PowerUps : MonoBehaviour
     {
+        #region Properties
+
+        private int backupMaxShield;
+        private int backupHPUP;
+
         [SerializeField]
         private int maxShieldAmount;
         [SerializeField]
         private int HPUPAmount;
 
-        private int backupCMS;
-        private int backupCHP;
+        [Space(10f)]
 
         [SerializeField]
-        GameObject Shield1;
-        [SerializeField]
-        GameObject Shield2;
-        [SerializeField]
-        GameObject Shield3;
-        [SerializeField]
-        GameObject Shield4;
+        GameObject[] shields = new GameObject[4];
 
-        private GameObject canvas;
         [SerializeField]
         private Text textMaxShield;
         [SerializeField]
@@ -35,37 +32,33 @@ namespace BounceAndDestroy
 
         //int que controla si se ha usado el max shield
         private int timerMS;
-        //int que controla si se ha usado hp
         private int timerHP;
-        //float que mostrara un timer de cuanto queda del power up
-        private float tiempoMS;
         //float que mostrara un timer de cuanto queda para usar nueva,ente hp
+        private float tiempoMS;
         private float tiempoHp;
-        // Use this for initialization
 
         //cotrolador max shield para que el jugador no pueda usarlo dos veces seguidas
-
         private bool controladorMS;
         private bool controladorHP;
 
         //cast del script Vida
         private GameObject vida;
-        private int OleadaActual;
-        
-        void Awake() {
+        private int actualWave;
+
+        #endregion
+
+        void Awake()
+        {
             vida = GameObject.Find("GameMaster");
             controladorMS = false;
             controladorHP = false;
             timerMS = 0;
             tiempoMS = 10f;
             tiempoHp = 20f;
-            canvas = GameObject.Find("CanvasPowerUps");
-            
-            backupCMS=maxShieldAmount;
-            backupCHP=HPUPAmount;
 
-    }
-
+            backupMaxShield = maxShieldAmount;
+            backupHPUP = HPUPAmount;
+        }
 
         void Start()
         {
@@ -73,20 +66,20 @@ namespace BounceAndDestroy
             Cantidadhp.GetComponent<Text>().text = "X" + HPUPAmount;
         }
 
-        // Update is called once per frame
         void Update()
         {
-            OleadaActual = GameObject.FindGameObjectWithTag("GameController").GetComponent<WaveController>().GetActualWave();
+            actualWave = GameObject.FindGameObjectWithTag("GameController").GetComponent<WaveController>().GetActualWave();
 
-            if (OleadaActual == 0 && WaveController.waveEnd == 0)
+            if (actualWave == 0 && WaveController.waveEnd == 0)
             {
-                maxShieldAmount= backupCMS;
-                HPUPAmount = backupCHP ;
+                maxShieldAmount= backupMaxShield;
+                HPUPAmount = backupHPUP ;
                 CantidadMS.GetComponent<Text>().text = "X" + maxShieldAmount;
                 Cantidadhp.GetComponent<Text>().text = "X" + HPUPAmount;
             }
 
-            if (timerMS == 1) {
+            if (timerMS == 1)
+            {
                 textMaxShield.text = tiempoMS.ToString("N0");
                 tiempoMS -= Time.deltaTime;
             }
@@ -109,7 +102,7 @@ namespace BounceAndDestroy
         {
             if (controladorHP==false)
             {
-                vida.GetComponent<Life>().IncreaseLife();
+                vida.GetComponent<Core>().IncreaseHealth(20f);
                 StartCoroutine(HPUP());
             }
         }
@@ -124,17 +117,18 @@ namespace BounceAndDestroy
                 timerMS = 1;
                 maxShieldAmount--;
                 CantidadMS.GetComponent<Text>().text = "X" + maxShieldAmount;
-                Shield1.SetActive(true);
-                Shield2.SetActive(true);
-                Shield3.SetActive(true);
-                Shield4.SetActive(true);
+
+                foreach (GameObject shield in shields)
+                {
+                    shield.SetActive(true);
+                }
 
                 yield return new WaitForSeconds(10f);
 
-                Shield1.SetActive(false);
-                Shield2.SetActive(false);
-                Shield3.SetActive(false);
-                Shield4.SetActive(false);
+                foreach (GameObject shield in shields)
+                {
+                    shield.SetActive(false);
+                }
 
                 yield return new WaitForSeconds(0.1f);
 
@@ -167,7 +161,7 @@ namespace BounceAndDestroy
                 controladorHP = false;
                 tiempoHp = 20f;
                 timerHP = 0;
-                textMaxHp.text = "HpUp";
+                textMaxHp.text = "HPUP";
 
                 yield return new WaitForSeconds(0.1f);
             }

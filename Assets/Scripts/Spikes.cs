@@ -29,7 +29,7 @@ namespace BounceAndDestroy
         void Start()
         {
             text.localPosition = text.parent.localPosition;
-            StartCoroutine(Explotar());
+            StartCoroutine(Exploit());
         }
 
         void Update()
@@ -45,7 +45,7 @@ namespace BounceAndDestroy
 
         #region Coroutines
 
-        IEnumerator Explotar()
+        IEnumerator Exploit()
         {
             yield return new WaitForSeconds(0.1f);
 

@@ -28,15 +28,15 @@ namespace BounceAndDestroy
 
         #region Unity functions
 
-        void Awake()
+        private void Awake()
         {
             rigidbody = gameObject.GetComponent<Rigidbody>();
-
-            transform.Rotate(0, 0, Random.Range(0f, 360f));
         }
 
-        void Start()
+        private void Start()
         {
+            transform.Rotate(0, 0, Random.Range(0f, 360f));
+
             if (!isInMenu)
             {
                 if (gameObject.tag == "Ball" || gameObject.tag == "Default02")
@@ -48,7 +48,7 @@ namespace BounceAndDestroy
             rigidbody.AddForce(transform.right * velocity);
         }
 
-        void Update()
+        private void Update()
         {
             if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > velocity)
             {
@@ -56,7 +56,7 @@ namespace BounceAndDestroy
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             Vector3 cVelocity = gameObject.GetComponent<Rigidbody>().velocity;
             Vector3 tVelocity = cVelocity.normalized * maxVelocity;
@@ -64,11 +64,11 @@ namespace BounceAndDestroy
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.Lerp(cVelocity, tVelocity, Time.deltaTime * smoothingFactor);
         }
 
-        void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Core"))
             {
-                GameObject.FindGameObjectWithTag("GameController").GetComponent<Life>().CoreLife();
+                collision.gameObject.GetComponent<Core>().DecreaseHealth(5);
             }
         }
 

@@ -37,7 +37,7 @@ namespace BounceAndDestroy
         private GameObject youWin;
 
         //Hidden
-        private bool isWaveTime;
+        private bool isWaveTime = true;
         private float waveCount = 5.0f;
 
         //Singleton
